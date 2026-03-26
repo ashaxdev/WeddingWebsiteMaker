@@ -1,65 +1,121 @@
+import Link from "next/link";
 import Image from "next/image";
 
-export default function Home() {
+// ✅ SEO Metadata
+export const metadata = {
+  title: "Wedding Invitation Website Maker | Digital Invitations",
+  description:
+    "Browse beautiful wedding invitation templates. Create your own wedding website and share via link or QR code.",
+  keywords: [
+    "wedding invitation website",
+    "digital invitation",
+    "online wedding card",
+    "wedding website builder",
+  ],
+};
+
+// ✅ Server-side fetch (SEO friendly)
+async function getTemplates() {
+  const res = await fetch("http://localhost:3000/api/templates", {
+    cache: "no-store",
+  });
+
+  if (!res.ok) return [];
+
+  return res.json();
+}
+
+export default async function Home() {
+  const templates = await getTemplates();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="min-h-screen bg-gradient-to-b from-pink-50 to-white">
+      
+      {/* HERO */}
+      <section className="text-center py-12 px-4">
+        <h1 className="text-3xl md:text-5xl font-bold leading-tight">
+          Wedding Invitation Website Maker 💍
+        </h1>
+
+        <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+          Create stunning wedding invitation websites. Customize templates,
+          share via link or QR code instantly.
+        </p>
+      </section>
+
+      {/* TEMPLATE GRID */}
+      <section className="px-4 md:px-10 pb-10">
+        <h2 className="text-xl md:text-2xl font-semibold mb-6">
+          Browse Templates
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          
+          {templates.map((template: any) => (
+            <article
+              key={template._id}
+              className="bg-white rounded-xl shadow hover:shadow-xl transition duration-300 overflow-hidden"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              
+              {/* IMAGE */}
+              <div className="relative">
+                <Image
+                  src={
+                    template.thumbnail ||
+                    "https://via.placeholder.com/400x250"
+                  }
+                  alt={`${template.title} wedding invitation template`}
+                  width={400}
+                  height={250}
+                  className="w-full h-52 object-cover"
+                />
+
+                {/* PRICE BADGE */}
+                <div className="absolute top-2 right-2">
+                  {template.isFree ? (
+                    <span className="bg-green-500 text-white text-xs px-3 py-1 rounded-full">
+                      Free
+                    </span>
+                  ) : (
+                    <span className="bg-pink-500 text-white text-xs px-3 py-1 rounded-full">
+                      ₹{template.price}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* CONTENT */}
+              <div className="p-4">
+                <h3 className="text-lg font-semibold">
+                  {template.title}
+                </h3>
+
+                {/* BUTTONS */}
+                <div className="flex gap-2 mt-4">
+                  
+                  <Link
+                    href={`/templates/${template._id}`}
+                    className="flex-1 text-center border border-gray-300 py-2 rounded-lg text-sm hover:bg-gray-100"
+                  >
+                    Preview
+                  </Link>
+
+                  <Link
+                    href={`/editor/${template._id}`}
+                    className="flex-1 text-center bg-[#800000] text-white py-2 rounded-lg text-sm hover:opacity-90"
+                  >
+                    Use
+                  </Link>
+
+                </div>
+              </div>
+
+            </article>
+          ))}
+
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+
+    </main>
   );
 }
