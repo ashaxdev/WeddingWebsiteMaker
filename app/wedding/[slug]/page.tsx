@@ -40,8 +40,8 @@ export default async function WeddingPage({ params }: any) {
       />
       {/* SHARE SECTION */}
 <div className="mt-6 grid md:grid-cols-2 gap-4">
-  <QRGenerator url={`https://yourdomain.com/wedding/${slug}`} />
-  <ShareButtons url={`https://yourdomain.com/wedding/${slug}`} />
+  <QRGenerator url={`https://wedding-website-maker.vercel.app/wedding/${slug}`} />
+  <ShareButtons url={`https://wedding-website-maker.vercel.app/wedding/${slug}`} />
 </div>
     </div>
   );
