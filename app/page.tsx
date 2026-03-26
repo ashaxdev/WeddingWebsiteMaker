@@ -16,7 +16,7 @@ export const metadata = {
 
 // ✅ Server-side fetch (SEO friendly)
 async function getTemplates() {
-  const res = await fetch("http://localhost:3000/api/templates", {
+  const res = await fetch("/api/templates", {
     cache: "no-store",
   });
 
