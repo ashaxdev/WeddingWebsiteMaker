@@ -16,7 +16,7 @@ export const metadata = {
 
 // ✅ Server-side fetch (SEO friendly)
 async function getTemplates() {
-  const res = await fetch("/api/templates", {
+  const res = await fetch("https://wedding-website-maker.vercel.app/api/templates", {
     cache: "no-store",
   });
 
